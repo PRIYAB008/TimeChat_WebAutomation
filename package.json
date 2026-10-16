@@ -1,0 +1,18 @@
+{
+  "name": "timechat-web-automation",
+  "version": "1.0.0",
+  "description": "Playwright + Cucumber (JavaScript) web automation boilerplate",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:headed": "HEADLESS=false cucumber-js",
+    "test:smoke": "cucumber-js --tags @smoke",
+    "install:browsers": "playwright install --with-deps chromium"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^13.3.0",
+    "@playwright/test": "^1.64.1",
+    "dotenv": "^18.0.8",
+    "playwright": "^1.64.1"
+  }
+}

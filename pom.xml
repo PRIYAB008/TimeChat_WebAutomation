@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.timechat</groupId>
+  <artifactId>timechat-web-automation</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <name>TimeChat Web Automation (Playwright + Cucumber JS)</name>
+
+  <!-- Maven wrapper around the JavaScript tests: `mvn test` runs `npm test`. -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <node.version>v22.12.0</node.version>
+    <npm.version>10.9.0</npm.version>
+    <!-- Override with: mvn test -Dcucumber.tags="@smoke" -->
+    <cucumber.tags>not @ignore</cucumber.tags>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <installDirectory>target</installDirectory>
+          <workingDirectory>${project.basedir}</workingDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>install-node-and-npm</id>
+            <goals><goal>install-node-and-npm</goal></goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <nodeVersion>${node.version}</nodeVersion>
+              <npmVersion>${npm.version}</npmVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm-install</id>
+            <goals><goal>npm</goal></goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>playwright-install-browsers</id>
+            <goals><goal>npx</goal></goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <arguments>playwright install chromium</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>cucumber-tests</id>
+            <goals><goal>npx</goal></goals>
+            <phase>test</phase>
+            <configuration>
+              <arguments>cucumber-js</arguments>
+              <environmentVariables>
+                <HEADLESS>${headless}</HEADLESS>
+                <CUCUMBER_TAGS>${cucumber.tags}</CUCUMBER_TAGS>
+              </environmentVariables>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>default-headless</id>
+      <activation><activeByDefault>true</activeByDefault></activation>
+      <properties><headless>true</headless></properties>
+    </profile>
+  </profiles>
+</project>
