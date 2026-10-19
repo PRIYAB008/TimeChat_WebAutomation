@@ -16,7 +16,6 @@ Feature: Login
     When I enter the test OTP
     Then I should land on the Chats home screen
 
-  # ---------------------------------------------------------------- Phone entry
 
   @regression
   Scenario: Initial login screen layout
