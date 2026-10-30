@@ -140,7 +140,7 @@ Feature: Login
     When I enter the test phone number
     And I tap Continue
     And I tap Change number
-    Then I should see the phone entry screen
+    Then I should see the phone entry screen                              
     And the phone field should contain ""
     And Continue should be disabled
 
